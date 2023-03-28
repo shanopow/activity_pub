@@ -9,9 +9,9 @@ public class Person implements App{
     String summary;
     Inbox inbox_inter;
     Outbox outbox_inter;
-    Queue<StreamActivity> wait_in = new LinkedList<>();
-    Queue<StreamActivity> inbox = new LinkedList<>();
-    Queue<StreamActivity> outbox = new LinkedList<>();
+    Queue<Activity> wait_in = new LinkedList<>();
+    Queue<Activity> inbox = new LinkedList<>();
+    Queue<Activity> outbox = new LinkedList<>();
 
     Person followers[];
     Person following[];
@@ -19,6 +19,7 @@ public class Person implements App{
     Person(String uri, String name){
         this.uri = uri;
         this.name = name;
+        // make users inbox
         inbox_inter = new Inbox() {
             public int getCount(){
                 return inbox.size();
@@ -36,7 +37,7 @@ public class Person implements App{
             
             // read and take out of inbox
             public Activity readNext(){
-                StreamActivity read_out = inbox.poll();
+                Activity read_out = inbox.poll();
                 return new Activity(){
                     public String getURI(){
                         return uri;
@@ -45,13 +46,14 @@ public class Person implements App{
             }
         };
         
+        // make users outbox
         outbox_inter = new Outbox(){
             public int getCount(){
                 return outbox.size();
             }        
             // creates activity and puts in outbox
             public boolean send(Activity act){
-                    outbox.add();
+                    outbox.add(act);
                     return true;
             }
             
@@ -75,7 +77,7 @@ public class Person implements App{
         this.summary = summary;
     }
     
-    public Inbox getInbox(){
+    public Inbox getInbox(){ 
         return this.inbox_inter;
     }
     
@@ -86,4 +88,9 @@ public class Person implements App{
     public String demo(){
         return "hello";
     }
+    public String toString(){
+        return "Person was created!\n" + "Name: "  + this.name + "\nUri: " + this.uri;
+    }
+
+    //object creation
 }

@@ -9,11 +9,17 @@ public class Client implements App{
     public String demo(){
         Person p1 = new Person("http/shane", "Shane");
         Person p2 = new Person("http/bob", "Bob");
+        System.out.println(p1);
+        System.out.println(p2);
+
+        return "hello";
     }
     public Outbox getOutbox() {
+        return null;
     }
+    
     public Inbox getInbox(){
-
+        return null;
     }
 }
 
