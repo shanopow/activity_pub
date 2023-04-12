@@ -3,9 +3,11 @@ package javasoc;
 abstract class StreamObject{
     String name;
     String type;
-    StreamObject(String name, String type){
+    String uri;
+    StreamObject(String name, String type, String uri){
         setName(name);
         setType(type);
+        setUri(uri);
     }
     // setters
     public void setType(String type){
@@ -15,6 +17,17 @@ abstract class StreamObject{
     public void setName(String name){
         this.name = name;
     }
+
+    public void setUri(String uri){
+        this.uri=uri;
+    }
+
+    public void CreateOver(){
+        System.out.println("\nA new " + this.type + " has been created!");
+        System.out.println("Name: " + this.name);
+        System.out.println("Uri: " + this.uri);
+    }
+
 }
 
 class Article extends StreamObject{
@@ -22,9 +35,15 @@ class Article extends StreamObject{
     Person attributedTo;
     // constructor
     Article(String type, String name, String uri, String content, Person attributedTo){
-        super(name, type);
+        super(name, type, uri);
         this.content = content;
         this.attributedTo = attributedTo;
+    }
+
+    public void Created(){
+        CreateOver();
+        System.out.println("Content: " + this.content);
+        System.out.println("Attributed To: " + this.attributedTo.name);
     }
 }
 
@@ -32,52 +51,70 @@ class Article extends StreamObject{
 class Event extends StreamObject{
     String startTime;
     String endTime;
-    Event(String type, String name, String startTime, String endTime){
-        super(name, type);
+    Event(String type, String name, String uri, String startTime, String endTime){
+        super(name, type, uri);
         this.startTime = startTime;
         this.endTime = endTime;
+    }
+
+    public void Created(){
+        CreateOver();
+        System.out.println("Start Time: " + this.startTime);
+        System.out.println("End Time: " + this.endTime);
     }
 }
 
 class Note extends StreamObject{
     String content;
-    Note(String type, String name, String content){
-        super(name, type);
+    Note(String type, String name, String uri, String content){
+        super(name, type, uri);
         this.content = content;
+    }
+
+    public void Created(){
+        CreateOver();
+        System.out.println("Content: " + this.content);
     }
 }
 
 class Document extends StreamObject{
     Url url;   
     // constructor
-    Document(String type, String name, Url url){
-        super(name, type);
+    Document(String type, String name, String uri, Url url){
+        super(name, type, uri);
         this.url = url;
     }
+
     // setters
     void setUrl(Url url){
         this.url = url;
+    }
+
+    public void Created(){
+        CreateOver();
+        System.out.println("Url:\n" + this.url);
+
     }
 }
 
 // Documents Classes
 class Audio extends Document{
     // constructors
-    Audio(String type, String name, Url url){
-        super(name, type, url);
+    Audio(String type, String name, String uri, Url url){
+        super(name, type, uri, url);
     }
 }
 
 class Image extends Document{
     // constuctors
-    Image(String type, String name, Url url){
-        super(name, type, url);
+    Image(String type, String name, String uri, Url url){
+        super(name, type, uri, url);
     }
 }
 
 
 class Page extends Document{
-    Page(String type, String name, Url url){
-        super(name, type, url);
+    Page(String type, String name, String uri, Url url){
+        super(name, type, uri, url);
     }
 }

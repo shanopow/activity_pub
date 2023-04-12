@@ -1,8 +1,10 @@
 project:
-	javac -d classes src/javasoc/Client.java src/javasoc/Person.java src/javasoc/StreamActivity.java src/javasoc/StreamObject.java
+	javac -d classes src/javasoc/*.java
 
-other:
-	javac -d ../classes src/javasoc/App.java src/javasoc/Person.java src/javasoc/ActivityParent.java
+run:
+	cd classes/
+	java javasoc.ClientApp
+	cd ..
 
 clean:
 	rm -r classes/*

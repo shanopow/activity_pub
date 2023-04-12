@@ -1,17 +1,15 @@
 package javasoc;
-import java.util.Queue;
-import java.util.LinkedList;
 
 public class Person implements App{
+    // the current activity that this person is handling
+    StreamActivity currentHeld;
+    
     String uri;
     String name;
     String preferredUsername;
     String summary;
-    Inbox inbox_inter;
-    Outbox outbox_inter;
-    Queue<Activity> wait_in = new LinkedList<>();
-    Queue<Activity> inbox = new LinkedList<>();
-    Queue<Activity> outbox = new LinkedList<>();
+    InboxPhys inbox = new InboxPhys();
+    OutboxPhys outbox = new OutboxPhys();
 
     Person followers[];
     Person following[];
@@ -19,54 +17,7 @@ public class Person implements App{
     Person(String uri, String name){
         this.uri = uri;
         this.name = name;
-        // make users inbox
-        inbox_inter = new Inbox() {
-            public int getCount(){
-                return inbox.size();
-            }
-            
-            //add to inbox
-            public boolean receive(Activity act){
-                if (wait_in.size() > 0){
-                    inbox.add(wait_in.peek());
-                    wait_in.remove();
-                    return true;
-                }
-                return false;
-            }
-            
-            // read and take out of inbox
-            public Activity readNext(){
-                Activity read_out = inbox.poll();
-                return new Activity(){
-                    public String getURI(){
-                        return uri;
-                    }
-                };
-            }
-        };
-        
-        // make users outbox
-        outbox_inter = new Outbox(){
-            public int getCount(){
-                return outbox.size();
-            }        
-            // creates activity and puts in outbox
-            public boolean send(Activity act){
-                    outbox.add(act);
-                    return true;
-            }
-            
-            // remove and deliver next message from outbox
-            public Activity deliverNext(){
-                Activity send_out = outbox.poll();
-                return new Activity(){
-                    public String getURI(){
-                        return uri;
-                    }
-                };
-            }
-        };
+        System.out.println(this);
     }
 
     //setters
@@ -78,19 +29,58 @@ public class Person implements App{
     }
     
     public Inbox getInbox(){ 
-        return this.inbox_inter;
+        return this.inbox;
     }
     
     public Outbox getOutbox(){
-        return this.outbox_inter;
+        return this.outbox;
     }
     
+    // misc
     public String demo(){
         return "hello";
     }
+    
     public String toString(){
-        return "Person was created!\n" + "Name: "  + this.name + "\nUri: " + this.uri;
+        return "\nA Person was created!\n" + "Name: "  + this.name + "\nUri: " + this.uri;
     }
 
-    //object creation
+    //activity creation, puts into out outbox for delivery
+    // Used when we already hav an object to put in the outbox
+    void OutPut(Activity tosend){
+        if (outbox.send(tosend)){
+            System.out.println("\nSent to outbox: " + tosend.uri);
+        }
+    }
+    // Used when creating objects for the outbox
+    void MakeLike(String uri, String summary, Person actor, StreamObject object){
+        Like tosend = new Like(uri, summary, actor, object);
+        if (outbox.send(tosend)){
+            System.out.println("\nSent to outbox: " + tosend.uri);
+        }
+    }
+    
+    void MakeFollow(String uri, String summary, Person actor, StreamObject object){
+        Follow tosend = new Follow(uri, summary, actor, object);
+        if (outbox.send(tosend)){
+            System.out.println("\nSent to outbox: " + tosend.uri);
+        }    }
+    
+    void MakeUnFollow(String uri, String summary, Person actor, StreamObject object){
+        Unfollow tosend = new Unfollow(uri, summary, actor, object);
+        if (outbox.send(tosend)){
+            System.out.println("\nSent to outbox: " + tosend.uri);
+        }    }
+    
+    void MakeCreate(String uri, String summary, Person actor, StreamObject object){
+        Create tosend = new Create(uri, summary, actor, object);
+        if (outbox.send(tosend)){
+            System.out.println("\nSent to outbox: " + tosend.uri);
+        }    }
+    
+    void MakeDelete(String uri, String summary, Person actor, StreamObject object){
+        Delete tosend = new Delete(uri, summary, actor, object);
+        if (outbox.send(tosend)){
+            System.out.println("\nSent to outbox: " + tosend.uri);
+        }    }
 }
