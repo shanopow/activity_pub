@@ -14,20 +14,16 @@ public class ClientApp implements App {
         Person p2 = new Person("http/user/bob", "Bob");
         Person p3 = new Person("http/user/james", "James");
 
-        // cretae some objects
+        // create some objects
         Note NoteTest = new Note("Note", "SendNote", "http/note/1", "Hello");
         Image ImgTest = new Image("Image", "SendImage", "http/image/1", new Url("Image", "http/image/dog", "JPEG"));
         
-        // create activites and add to p1 outbox
-        p1.MakeCreate("http/created/note/2", "A note was created", p1, NoteTest);
-        p1.MakeCreate("http.created/image/2", "An Image was created", p1, ImgTest);
+        // create activites for the objects (they belong to p1 and will be sent to p2)
+        p1.MakeCreate("http/created/note/2", "A note was created", p1, p2, NoteTest, true);
+        p1.MakeCreate("http.created/image/2", "An Image was created", p1, p2, ImgTest, false);
 
-        
-        // get activity out of p1's outbox
-
-        // p2 gets this activity into their inbox
-
-        // p2 will now read this note and send it to p3
+        p1.emptier();
+        // these will now try to send to their destination
 
 
 

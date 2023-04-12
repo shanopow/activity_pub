@@ -13,11 +13,12 @@ class InboxPhys implements Inbox {
     // used when we recieve an activity and put it into the storage
     public boolean PutIn(StreamActivity toput){
         holder.add(toput);
+        System.out.println();
         return true;
     }
 
     // send out outbox to another outbox
-    public StreamActivity recieveNext(){
+    public StreamActivity receiveNext(){
         return holder.poll();
     }
     
@@ -46,7 +47,7 @@ class OutboxPhys implements Outbox {
         return true;
     }
 
-    // send out outbox to another outbox
+    // send item from outbox to another outbox
     public StreamActivity sendNext(){
         return holder.poll();
     }
