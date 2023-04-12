@@ -24,6 +24,7 @@ public class Person implements App{
     void setpreferredUsername(String preferredUsername){
         this.preferredUsername = preferredUsername;
     }
+
     void setSummary(String summary){
         this.summary = summary;
     }
@@ -45,42 +46,45 @@ public class Person implements App{
         return "\nA Person was created!\n" + "Name: "  + this.name + "\nUri: " + this.uri;
     }
 
-    //activity creation, puts into out outbox for delivery
-    // Used when we already hav an object to put in the outbox
-    void OutPut(Activity tosend){
-        if (outbox.send(tosend)){
-            System.out.println("\nSent to outbox: " + tosend.uri);
-        }
+    // when I create a stream and send to inbox, call this, which will find the target and send it to their inbox
+    public void TargetFinder(){
+        
     }
+
     // Used when creating objects for the outbox
+    // All activities cretaed here are automatically added to the persons outbox, they cannot exist outside of there
     void MakeLike(String uri, String summary, Person actor, StreamObject object){
         Like tosend = new Like(uri, summary, actor, object);
-        if (outbox.send(tosend)){
+        if (outbox.PutIn(tosend)){
             System.out.println("\nSent to outbox: " + tosend.uri);
         }
     }
     
     void MakeFollow(String uri, String summary, Person actor, StreamObject object){
         Follow tosend = new Follow(uri, summary, actor, object);
-        if (outbox.send(tosend)){
+        if (outbox.PutIn(tosend)){
             System.out.println("\nSent to outbox: " + tosend.uri);
-        }    }
+        }
+    }
     
     void MakeUnFollow(String uri, String summary, Person actor, StreamObject object){
         Unfollow tosend = new Unfollow(uri, summary, actor, object);
-        if (outbox.send(tosend)){
+        if (outbox.PutIn(tosend)){
             System.out.println("\nSent to outbox: " + tosend.uri);
-        }    }
+        }
+    }
     
     void MakeCreate(String uri, String summary, Person actor, StreamObject object){
         Create tosend = new Create(uri, summary, actor, object);
-        if (outbox.send(tosend)){
+        if (outbox.PutIn(tosend)){
             System.out.println("\nSent to outbox: " + tosend.uri);
-        }    }
+        }
+    }
     
     void MakeDelete(String uri, String summary, Person actor, StreamObject object){
         Delete tosend = new Delete(uri, summary, actor, object);
-        if (outbox.send(tosend)){
+        if (outbox.PutIn(tosend)){
             System.out.println("\nSent to outbox: " + tosend.uri);
-        }    }
+        }
+    }
 }
