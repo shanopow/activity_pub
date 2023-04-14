@@ -12,5 +12,11 @@ These are Follow, Unfollow and Like.
 The ClientApp has power to send "signals" to the users it ahs control over. The methods "GroupEmptier" and "GroupReceiver" are then able to tell each person to read all in their inbox or send all in their outbox
 This could then allow us to call this method periodically in a full deployment of the concept, although it does move away from the spec.
 
-StreamObjects are the base object that make up all contnt sent though the system. With the exception of Like, Follow and Unfollow StreamActivities, All other StreamActivities must use StreamObjects.
-This ensures regulaity of dat being sent.
+StreamObjects are the base object that make up all contnt sent though the system. With the exception of Like, Follow and Unfollow StreamActivities, 
+All other StreamActivities must use StreamObjects.
+This ensures regularity of data being sent.
+
+2. Issues
+Based on the statements above, we can see some issues. Primarily, The requirement for two seperate constructors for the StreamActivity because of the disconnect between 
+Like, Follow and Other Activities results in some obscurity in implementation.
+The Weakness of the InboxPhys and OutboxPhys is also an issues. These classes lack functionality as Both Person and ClientApp possess methods to prompt the inbox and outbox. 
