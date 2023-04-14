@@ -1,4 +1,3 @@
-package javasoc;
 
 public abstract class StreamActivity implements Activity{
     String uri;

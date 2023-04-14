@@ -1,4 +1,3 @@
-package javasoc;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -28,22 +27,27 @@ public class ClientApp implements App {
         p1.MakeFollow("http/created/follow/1", "I am following someone", p1, p2);
         p3.MakeFollow("http/created/follow/2", "I am following someone", p3, p1);
 
+        // clear all of the outboxes under our control
         GroupEmptier();
         
+        // make all users read everyting in their inboxes
         GroupReceiver();
 
         // create activites for the objects (they belong to p1 and will be sent to p2)
         p1.MakeCreate("http/created/note/2", "A note was created", p1, p2, NoteTest, true);
         p1.MakeCreate("http/created/image/2", "An Image was created", p1, p2, ImgTest, false);
+        
         // clear all of the outboxes under our control
         GroupEmptier();
 
         // make all users read everyting in their inboxes
         GroupReceiver();
         
-        return "hello";
+        return "";
     }
 
+    // these have no use as each person is responsible for their inbox / outbox
+    // app can only send prompts to change inboxes / outboxes
     public Outbox getOutbox() {
         return null;
     }

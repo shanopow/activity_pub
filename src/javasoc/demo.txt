@@ -18,14 +18,12 @@ Target: http/user/bob
 
 Sent to outbox: http/created/follow/1
 
-
 An Activity was created!
 Uri: http/created/follow/2
 Summary: I am following someone
 Target: http/user/shane
 
 Sent to outbox: http/created/follow/2
-
 http/created/follow/1 left http/user/shane's outbox:
 
 http/created/follow/2 left http/user/james's outbox:
@@ -41,7 +39,6 @@ Object: http/note/1
 
 Sent to outbox: http/created/note/2
 
-
 An Activity was created!
 Uri: http/created/image/2
 Summary: An Image was created
@@ -49,7 +46,6 @@ Target: http/user/bob
 Object: http/image/1
 
 Sent to outbox: http/created/image/2
-
 http/created/note/2 left http/user/shane's outbox:
 
 http/created/image/2 left http/user/shane's outbox:

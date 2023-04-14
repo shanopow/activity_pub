@@ -1,5 +1,3 @@
-package javasoc;
-
 
 import java.util.Queue;
 import java.util.LinkedList;
@@ -7,13 +5,16 @@ import java.util.LinkedList;
 
 // inbox class
 class InboxPhys implements Inbox {
+    // holds our activities
     Queue<StreamActivity> holder = new LinkedList<>();
     
     public int getCount() {
         return holder.size();
     }
     
+
     public boolean receive(Activity act) {
+        // Cast as a StreamActivity
         StreamActivity toadd = (StreamActivity) act;
         holder.add(toadd);
         return true;
@@ -47,7 +48,7 @@ class OutboxPhys implements Outbox {
     }
 }
 
-// advanced content for urls
+// advanced content for urls, used in some StreamObjects
 class Url {
     String type;
     String href;
@@ -75,6 +76,19 @@ class Url {
 
     public void setMediaType(String media_type) {
         this.media_type = media_type;
+    }
+
+    // getters
+    public String getType() {
+        return this.type;
+    }
+    
+    public String getHref() {
+        return this.href;
+    }
+    
+    public String getMediaType() {
+        return this.media_type;
     }
 
     public String toString() {

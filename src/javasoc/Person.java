@@ -1,10 +1,9 @@
-package javasoc;
 
 import java.util.List;
 import java.util.ArrayList;
 
 
-public class Person implements App{
+class Person implements App{
     // the current activity that this person is handling
     StreamActivity currentHeld;
     
@@ -18,6 +17,7 @@ public class Person implements App{
     List <Person> followers = new ArrayList<Person>();
     List <Person> following = new ArrayList<Person>();
 
+    // constructor
     Person(String uri, String name){
         this.uri = uri;
         this.name = name;
@@ -33,6 +33,7 @@ public class Person implements App{
         this.summary = summary;
     }
     
+    // getters    
     public Inbox getInbox(){ 
         return this.inbox;
     }
@@ -40,7 +41,25 @@ public class Person implements App{
     public Outbox getOutbox(){
         return this.outbox;
     }
+
+    public String getUri(){
+        return this.uri;
+    }
     
+    public String getName(){
+        return this.name;
+    }
+    
+    public String getPreferredUsername(){
+        return this.preferredUsername;
+    }
+    
+    public String getSummary(){
+        return this.summary;
+    }
+
+
+
     // misc
     public String demo(){
         return "hello";
