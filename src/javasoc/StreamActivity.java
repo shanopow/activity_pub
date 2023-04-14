@@ -43,7 +43,7 @@ public abstract class StreamActivity implements Activity{
     };
 
     public void Created(){
-        System.out.println("\nAn created!");
+        System.out.println("\nAn Activity was created!");
         System.out.println("Uri: " + this.uri);
         System.out.println("Summary: " + this.summary);
         System.out.println("Target: " + this.target.uri);

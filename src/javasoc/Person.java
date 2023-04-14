@@ -53,19 +53,26 @@ public class Person implements App{
 
     // this will empty my outbox and then send the objects to their targets
     // will return true if empties or if we have delivered 50 items
-    public boolean emptier(){
-        
+    public boolean emptier(){        
         while (outbox.getCount() > 0){
-            StreamActivity todeliver = outbox.sendNext();
+            StreamActivity todeliver = outbox.deliverNext();
             // send to all of our followers
             if (todeliver.followsend){
                 for (Person follow_target: followers){
-                    follow_target.inbox.PutIn(todeliver);
+                    follow_target.inbox.receive(todeliver);
                 }
             }
             // send to the target
-            todeliver.target.inbox.PutIn(todeliver);
-            System.out.println("Left the outbox!");
+            todeliver.target.inbox.receive(todeliver);
+            System.out.println(todeliver.getURI() + " left " + this.uri +  "'s outbox:\n");
+        }
+        return true;
+    }
+
+    public boolean reader(){
+        while (inbox.getCount() > 0){
+            StreamActivity toread = inbox.readNext();
+            System.out.println(this.uri + " read: " + toread.getURI());
         }
         return true;
     }
@@ -74,35 +81,35 @@ public class Person implements App{
     // All activities cretaed here are automatically added to the persons outbox, they cannot exist outside of there
     void MakeLike(String uri, String summary, Person actor, Person target, StreamObject object){
         Like tosend = new Like(uri, summary, actor, target, object);
-        if (outbox.PutIn(tosend)){
+        if (outbox.send(tosend)){
             System.out.println("\nSent to outbox: " + tosend.uri);
         }
     }
     
     void MakeFollow(String uri, String summary, Person actor, Person target, StreamObject object){
         Follow tosend = new Follow(uri, summary, actor, target, object);
-        if (outbox.PutIn(tosend)){
+        if (outbox.send(tosend)){
             System.out.println("\nSent to outbox: " + tosend.uri);
         }
     }
     
     void MakeUnFollow(String uri, String summary, Person actor, Person target, StreamObject object){
         Unfollow tosend = new Unfollow(uri, summary, actor, target, object);
-        if (outbox.PutIn(tosend)){
+        if (outbox.send(tosend)){
             System.out.println("\nSent to outbox: " + tosend.uri);
         }
     }
     
     void MakeCreate(String uri, String summary, Person actor, Person target, StreamObject object, boolean followsend){
         Create tosend = new Create(uri, summary, actor, target, object, followsend);
-        if (outbox.PutIn(tosend)){
+        if (outbox.send(tosend)){
             System.out.println("\nSent to outbox: " + tosend.uri);
         }
     }
     
     void MakeDelete(String uri, String summary, Person actor, Person target, StreamObject object, boolean followsend){
         Delete tosend = new Delete(uri, summary, actor, target, object, followsend);
-        if (outbox.PutIn(tosend)){
+        if (outbox.send(tosend)){
             System.out.println("\nSent to outbox: " + tosend.uri);
         }
     }

@@ -8,31 +8,19 @@ import java.util.LinkedList;
 // inbox class
 class InboxPhys implements Inbox {
     Queue<StreamActivity> holder = new LinkedList<>();
-
-    
-    // used when we recieve an activity and put it into the storage
-    public boolean PutIn(StreamActivity toput){
-        holder.add(toput);
-        System.out.println();
-        return true;
-    }
-
-    // send out outbox to another outbox
-    public StreamActivity receiveNext(){
-        return holder.poll();
-    }
     
     public int getCount() {
         return holder.size();
     }
     
-    // interface methods
-
     public boolean receive(Activity act) {
+        StreamActivity toadd = (StreamActivity) act;
+        holder.add(toadd);
         return true;
     }
-
-    public Activity readNext() {
+    
+    @Override
+    public StreamActivity readNext() {
         return holder.poll();
     }
 }
@@ -40,29 +28,21 @@ class InboxPhys implements Inbox {
 // outbox
 class OutboxPhys implements Outbox {
     Queue<StreamActivity> holder = new LinkedList<>();
-
-    // used when we create an activity and add to out outbox
-    public boolean PutIn(StreamActivity toput){
-        holder.add(toput);
-        return true;
-    }
-
-    // send item from outbox to another outbox
-    public StreamActivity sendNext(){
-        return holder.poll();
-    }
     
     public int getCount() {
         return holder.size();
     }
     
-    // interface methods
+    // used when we create an activity and add to out outbox
     public boolean send(Activity act) {
+        StreamActivity toadd = (StreamActivity) act;
+        holder.add(toadd);
         return true;
-
     }
 
-    public Activity deliverNext() {
+    // send item from outbox to another outbox
+    @Override
+    public StreamActivity deliverNext() {
         return holder.poll();
     }
 }
