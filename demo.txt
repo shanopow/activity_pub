@@ -1,0 +1,58 @@
+
+A Person was created!
+Name: Shane
+Uri: http/user/shane
+
+A Person was created!
+Name: Bob
+Uri: http/user/bob
+
+A Person was created!
+Name: James
+Uri: http/user/james
+
+An Activity was created!
+Uri: http/created/followed/1
+Summary: I am following someone
+Target: http/user/bob
+
+Sent to outbox: http/created/followed/1
+
+
+An Activity was created!
+Uri: http/created/follow/2
+Summary: I am following someone
+Target: http/user/shane
+
+Sent to outbox: http/created/follow/2
+
+http/created/followed/1 left http/user/shane's outbox:
+
+http/created/follow/2 left http/user/james's outbox:
+
+http/user/shane read: http/created/follow/2
+http/user/bob read: http/created/followed/1
+
+An Activity was created!
+Uri: http/created/note/2
+Summary: A note was created
+Target: http/user/bob
+Object: http/note/1
+
+Sent to outbox: http/created/note/2
+
+
+An Activity was created!
+Uri: http/created/image/2
+Summary: An Image was created
+Target: http/user/bob
+Object: http/image/1
+
+Sent to outbox: http/created/image/2
+
+http/created/note/2 left http/user/shane's outbox:
+
+http/created/image/2 left http/user/shane's outbox:
+
+http/user/bob read: http/created/note/2
+http/user/bob read: http/created/image/2

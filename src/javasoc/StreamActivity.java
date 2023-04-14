@@ -8,6 +8,8 @@ public abstract class StreamActivity implements Activity{
     boolean followsend; // this is to determine whether to send to our followers or not
     // typically the subject of the activity
     StreamObject object;
+    
+    // standard constructor
     StreamActivity(String uri, String summary, Person actor, Person target, StreamObject object, boolean followsend){
         setSummary(summary);
         setUri(uri);
@@ -17,6 +19,15 @@ public abstract class StreamActivity implements Activity{
         setFollowSend(followsend);
     }
     
+    // constructor for Lik, Follow and Unfollow (They need no object attached)
+    StreamActivity(String uri, String summary, Person actor, Person target){
+        setSummary(summary);
+        setUri(uri);
+        setActor(actor);
+        setTarget(target);
+        setFollowSend(false);
+    }
+
     // setters
     void setSummary(String summary){
         this.summary = summary;
@@ -47,27 +58,31 @@ public abstract class StreamActivity implements Activity{
         System.out.println("Uri: " + this.uri);
         System.out.println("Summary: " + this.summary);
         System.out.println("Target: " + this.target.uri);
-        System.out.println("Object: " + this.object.uri);
+        
+        // follows unfollows and likes done use this field
+        if (this.object != null){
+            System.out.println("Object: " + this.object.uri);
+        }
     }
 }
 
  class Like extends StreamActivity{
-    Like(String uri, String summary, Person actor, Person target, StreamObject object){
-        super(uri, summary, actor, target, object, false);
+    Like(String uri, String summary, Person actor, Person target){
+        super(uri, summary, actor, target);
         Created();
     }
 }
 
  class Follow extends StreamActivity{
-    Follow(String uri, String summary, Person actor, Person target, StreamObject object){
-        super(uri, summary, actor, target, object, false);
+    Follow(String uri, String summary, Person actor, Person target){
+        super(uri, summary, actor, target);
         Created();
     }
 }
 
  class Unfollow extends StreamActivity{
-    Unfollow(String uri, String summary, Person actor, Person target, StreamObject object){
-        super(uri, summary, actor, target, object, false);
+    Unfollow(String uri, String summary, Person actor, Person target){
+        super(uri, summary, actor, target);
         Created();
     }
 }

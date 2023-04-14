@@ -1,6 +1,5 @@
 package javasoc;
 
-
 import java.util.List;
 import java.util.ArrayList;
 
@@ -69,32 +68,35 @@ public class Person implements App{
         return true;
     }
 
+    // reads every activity in our inbox, then tosses them
     public boolean reader(){
         while (inbox.getCount() > 0){
             StreamActivity toread = inbox.readNext();
             System.out.println(this.uri + " read: " + toread.getURI());
+
+            // if its a follow, unfollow we need to do some more
         }
         return true;
     }
 
     // Used when creating objects for the outbox
     // All activities cretaed here are automatically added to the persons outbox, they cannot exist outside of there
-    void MakeLike(String uri, String summary, Person actor, Person target, StreamObject object){
-        Like tosend = new Like(uri, summary, actor, target, object);
+    void MakeLike(String uri, String summary, Person actor, Person target){
+        Like tosend = new Like(uri, summary, actor, target);
         if (outbox.send(tosend)){
             System.out.println("\nSent to outbox: " + tosend.uri);
         }
     }
     
-    void MakeFollow(String uri, String summary, Person actor, Person target, StreamObject object){
-        Follow tosend = new Follow(uri, summary, actor, target, object);
+    void MakeFollow(String uri, String summary, Person actor, Person target){
+        Follow tosend = new Follow(uri, summary, actor, target);
         if (outbox.send(tosend)){
             System.out.println("\nSent to outbox: " + tosend.uri);
         }
     }
     
-    void MakeUnFollow(String uri, String summary, Person actor, Person target, StreamObject object){
-        Unfollow tosend = new Unfollow(uri, summary, actor, target, object);
+    void MakeUnFollow(String uri, String summary, Person actor, Person target){
+        Unfollow tosend = new Unfollow(uri, summary, actor, target);
         if (outbox.send(tosend)){
             System.out.println("\nSent to outbox: " + tosend.uri);
         }

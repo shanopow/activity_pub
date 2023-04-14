@@ -23,11 +23,18 @@ public class ClientApp implements App {
         // create some objects
         Note NoteTest = new Note("Note", "SendNote", "http/note/1", "Hello");
         Image ImgTest = new Image("Image", "SendImage", "http/image/1", new Url("Image", "http/image/dog", "JPEG"));
+
+        // make some follow requests
+        p1.MakeFollow("http/created/follow/1", "I am following someone", p1, p2);
+        p3.MakeFollow("http/created/follow/2", "I am following someone", p3, p1);
+
+        GroupEmptier();
         
+        GroupReceiver();
+
         // create activites for the objects (they belong to p1 and will be sent to p2)
         p1.MakeCreate("http/created/note/2", "A note was created", p1, p2, NoteTest, true);
-        p1.MakeCreate("http.created/image/2", "An Image was created", p1, p2, ImgTest, false);
-
+        p1.MakeCreate("http/created/image/2", "An Image was created", p1, p2, ImgTest, false);
         // clear all of the outboxes under our control
         GroupEmptier();
 
@@ -52,7 +59,7 @@ public class ClientApp implements App {
         }
     }
 
-    // try to to get al users to read messages in their inboxes now
+    // try to to get all users to read messages in their inboxes now
     public void GroupReceiver(){
         for (Person user: userholder){
             user.reader();

@@ -1,0 +1,16 @@
+This report will be divided into sections to demonstrate pieces of this application that require some additional explanation.
+
+1. Basic Structure
+
+This basic structure for this project is as follows:
+Each ClientApp instance holds a number of Person objects.
+Each Person then contains both an inbox and outbox.
+A Person can then create StreamObjects to send to together users. These StreamObjects are then wrapped in a StreamActivity.
+These StreamActivity objects are used primarily to announce the creation of Streambjects, However some StreamActivity objects may not hold and StreamObject. 
+These are Follow, Unfollow and Like.
+
+The ClientApp has power to send "signals" to the users it ahs control over. The methods "GroupEmptier" and "GroupReceiver" are then able to tell each person to read all in their inbox or send all in their outbox
+This could then allow us to call this method periodically in a full deployment of the concept, although it does move away from the spec.
+
+StreamObjects are the base object that make up all contnt sent though the system. With the exception of Like, Follow and Unfollow StreamActivities, All other StreamActivities must use StreamObjects.
+This ensures regulaity of dat being sent.
